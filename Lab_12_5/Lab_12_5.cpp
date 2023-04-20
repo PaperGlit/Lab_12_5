@@ -28,11 +28,20 @@ Info pop(Elem*& top)
     return value;
 }
 
+void print(Elem* top)
+{
+    while (top != NULL)
+    {
+        cout << top->info << " ";
+        top = top->link;
+    }
+}
+
 Info eval(Elem* stack, string exprsn, Info a, Info b, Info c, Info d)
 {
     for (int j = exprsn.size() - 1; j >= 0; j--) 
     {
-        if (exprsn[j] == 'a' || exprsn[j] == 'b' || exprsn[j] == 'c' || exprsn[j] == 'd')
+        if (exprsn[j] == 'a' || exprsn[j] == 'b' || exprsn[j] == 'c' || exprsn[j] == 'd') //1
             switch (exprsn[j])
             {
             case 'a':
@@ -50,11 +59,9 @@ Info eval(Elem* stack, string exprsn, Info a, Info b, Info c, Info d)
             }
         else 
         {
-            Info o1 = stack->info;
-            pop(stack);
-            Info o2 = stack->info;
-            pop(stack);
-            switch (exprsn[j]) 
+            Info o1 = pop(stack); //2
+            Info o2 = pop(stack); //3
+            switch (exprsn[j])  //4
             {
             case '+':
                 push(stack, o1 + o2);
@@ -70,6 +77,7 @@ Info eval(Elem* stack, string exprsn, Info a, Info b, Info c, Info d)
                 break;
             }
         }
+        print(stack); cout << " (" << exprsn[j] << ")" << endl;
     }
     return stack->info;
 }
